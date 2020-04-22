@@ -1,25 +1,20 @@
 #%%
-import argparse
-import warnings
-import sys
 from tqdm import tqdm
-
-from opts import add_decoder_args, add_inference_args
-from utils import load_model
-from transcribe import transcribe
-
-from decoder import GreedyDecoder
-
-import torch
-
-from data.data_loader import SpectrogramParser
 import os.path
 import json
 import numpy as np
 import random
 import torch
 import Levenshtein
+import torch
 
+from transcribe_stripped import transcribe
+from data_loader_stripped import SpectrogramParser
+from utils import load_model       # strip
+from decoder import GreedyDecoder  # strip, and check into beam decoder
+
+
+# temporary
 if os.getcwd()[-18:] != 'deepspeech.pytorch':
     print('Please change your working directory to the cloned repo located at \n'
           'https://github.com/SeanNaren/deepspeech.pytorch.git \nto resolve potential filepath '
@@ -40,9 +35,6 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
         # set device as cuda if possible
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # hyperparameter needed for model loading
-        half = False
-
         # load list of wav files that we will transcribe
         wav_dir = os.getcwd() + wav_dir
         wav_files = [wav_dir + f for f in os.listdir(wav_dir) if f[-4:] == '.wav']
@@ -58,9 +50,9 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
         txt_files = [txt_dir + f[len(wav_dir):][:-4] + '.txt' for f in wav_files]
         print('txt files found 2/3')
 
-        # load the model that will be used to transcribe
+        # load the model that will be used to transcribe - look into why half
         model_path = os.getcwd() + model_dir
-        model = load_model(device, model_path, half)
+        model = load_model(device, model_path, use_half=False)
         print('model found 3/3')
 
     # print error if loading fails
@@ -98,8 +90,7 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
                                                          spect_parser=spect_parser,      # spectrogram parser
                                                          model=model,                    # model
                                                          decoder=decoder,                # greedy or beam decoder
-                                                         device=device,                  # cuda or cpu
-                                                         use_half=half)                  # half precision or not
+                                                         device=device)                  # cuda or cpu
 
             # open associated txt file and get contents
             f = open(txt_files[i], 'r')
