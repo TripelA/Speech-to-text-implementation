@@ -1,13 +1,13 @@
 #%%
 import pandas as pd
-from data_loader_stripped import load_audio
 import os
-import scipy.io.wavfile as wave
+from shutil import copy
 import random
+
 
 vox_data = pd.read_csv('data/voxforge_train_manifest.csv')
 
-newdir = 'data/transfer_set/'
+newdir = os.getcwd() + '/data/voxforge_sample_files/'
 
 train_dir = newdir + 'train/'
 test_dir = newdir + 'test/'
@@ -46,31 +46,23 @@ txt_str = str(os.getcwd() + '/data/voxforge_dataset/txt/')
 for i in n:
     wav_name = vox_data.iloc[i, 0]
     wav_name_stripped = wav_name.replace(wav_str, '')
-    wav_file = load_audio(wav_name)
 
     txt_name = vox_data.iloc[i, 1]
     txt_name_stripped = txt_name.replace(txt_str, '')
-    f = open(txt_name, 'r')
-    txt = f.read()
-    f.close()
 
     if len(lens) == int(len(n)/2):
         print('Training Files Created')
 
     if len(lens) < int(len(n)/2):
 
-        wave.write(train_dir + 'wav/' + wav_name_stripped, len(wav_file), wav_file)
-        f2 = open(train_dir + 'txt/' + txt_name_stripped, 'w')
-        f2.write(txt)
-        f2.close
+        copy(wav_name, train_dir + 'wav/' + wav_name_stripped)
+        copy(txt_name, train_dir + 'txt/' + txt_name_stripped)
 
     else:
-        wave.write(test_dir + 'wav/' + wav_name_stripped, len(wav_file), wav_file)
-        f2 = open(test_dir + 'txt/' + txt_name_stripped, 'w')
-        f2.write(txt)
-        f2.close
+        copy(wav_name, test_dir + 'wav/' + wav_name_stripped)
+        copy(txt_name, test_dir + 'txt/' + txt_name_stripped)
 
-    lens.append(len(wav_file))
+    lens.append(1)
 
 
 
