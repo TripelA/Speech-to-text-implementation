@@ -191,9 +191,9 @@ try:
 except:
     print('Failed')
 
-#%% an4 model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
-                                             "/data/transfer_set/test/txt/",
+#%% an4 model with voxforge test data
+transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
+                                             "/data/voxforge_sample_files/test/txt/",
                                              "/models/an4_pretrained_v2.pth",
                                              n_files=500)
 try:
@@ -204,9 +204,9 @@ try:
 except:
     print('Failed')
 
-#%% librispeech model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
-                                             "/data/transfer_set/test/txt/",
+#%% librispeech model with test voxforge data
+transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
+                                             "/data/voxforge_sample_files/test/txt/",
                                              "/models/librispeech_pretrained_v2.pth")
 try:
     for i in range(5):
@@ -216,10 +216,21 @@ try:
 except:
     print('Failed')
 
-#%% tedlium model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
-                                             "/data/transfer_set/test/txt/",
+#%% tedlium model with test voxforge data
+transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
+                                             "/data/voxforge_sample_files/test/txt/",
                                              "/models/ted_pretrained_v2.pth")
+try:
+    for i in range(5):
+        print('Transcribed: %s' % transcribed[i])
+        print('Actual: %s' % actual[i], end='\n\n')
+except:
+    print('Failed')
+
+#%% Transfer Learning model with test voxforge data
+transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
+                                             "/data/voxforge_sample_files/test/txt/",
+                                             "ENTER PATH TO NEW MODEL HERE")
 try:
     for i in range(5):
         print('Transcribed: %s' % transcribed[i])
