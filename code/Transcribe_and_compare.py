@@ -11,7 +11,7 @@ import torch
 from transcribe_stripped import transcribe
 from data_loader_stripped import SpectrogramParser
 from utils import load_model       # strip
-from decoder import GreedyDecoder  # strip, and check into beam decoder
+from decoder_stripped import GreedyDecoder  # strip, and check into beam decoder
 
 
 # temporary
@@ -25,7 +25,7 @@ else:
 #%% Transcribe and compare function
 
 
-def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=False):
+def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files=500, verbose=False):
 
     # set random seed for sampling wav files
     random.seed(1)
@@ -42,8 +42,7 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
 
         # since the an4 model is built on the smallest dataset (130 test cases), downsample if needed to ensure
         # equivalent sizes
-        if 'an4' not in wav_dir:
-            wav_files = random.sample(wav_files, 130)  # 130 is the length of the an4 testing set
+        #     wav_files = random.sample(wav_files, 130)  # 130 is the length of the an4 testing set
 
         # load list of txt files containing the actual transcriptions
         txt_dir = os.getcwd() + txt_dir
@@ -72,7 +71,8 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
             n_files = len(wav_files)
 
         # initialize empty lists to store information
-        all_distance = []
+        cer = []
+        wer = []
         transcribed = []
         actual = []
 
@@ -101,21 +101,49 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
             decode = decoded_output[0][0]
 
             # METRICS TO UPDATE! Currently, calculate Levenshtein distance between transcription and predicted
-            ld = Levenshtein.distance(decode, act)
-            all_distance = np.append(all_distance, ld)
+            ### CER ###
+
+            # replace any spaces
+            decode_lev, act_lev = decode.replace(' ', ''), act.replace(' ', '')
+
+            # calculate distance without spaces
+            ld_cer = Levenshtein.distance(decode_lev, act_lev)
+
+            # append CER to running list
+            cer = np.append(cer, ld_cer)
+
+            ### WER ###
+
+            # split output strings by spaces and create set of unique words
+            uniquewords = set(decode.split() + act.split())
+
+            # create dictionary of each word and a corresponding index
+            word2char = dict(zip(uniquewords, range(len(uniquewords))))
+
+            # map the words to a char array (Levenshtein packages only accepts
+            # strings)
+
+            # map words to index in the dictionary word2char
+            w1 = [chr(word2char[w]) for w in decode.split()]
+            w2 = [chr(word2char[w]) for w in act.split()]
+
+            # calculate distance from word vectors and append to running total
+            ld_wer = Levenshtein.distance(''.join(w1), ''.join(w2))
+            wer = np.append(wer, ld_wer)
 
             # option for user to print as the data as it is transcribed
             if verbose:
                 print('Predicted: %s' % decoded_output[0][0])
                 print('Actual: %s' % act)
-                print('Levenshtein Distance: %i' % ld, end='\n\n')
+                print('Levenshtein Distance (CER): %i' % ld_cer, end='\n\n')
 
             # append pred and actual to respective lists
             transcribed = np.append(transcribed, decoded_output[0][0])
             actual = np.append(actual, act)
 
         print('Completed Parsing')
-        print('Mean Leveshtein distance: %f' % np.mean(all_distance))
+        print('Mean Levenshtein distance (CER): %f' % np.mean(cer))
+        print('Mean Levenshtein distance (WER): %f' % np.mean(wer))
 
         # return lists of predicted transcriptions and actual transcriptions
         return transcribed, actual
@@ -123,7 +151,6 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files='All', verbose=F
     except:
         print('Transcription Prediction failed')
         return np.nan, np.nan
-
 
 
 #%% an4 model with an4 test data
@@ -165,9 +192,10 @@ except:
     print('Failed')
 
 #%% an4 model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/voxforge_dataset/wav/",
-                                             "/data/voxforge_dataset/txt/",
-                                             "/models/an4_pretrained_v2.pth")
+transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
+                                             "/data/transfer_set/test/txt/",
+                                             "/models/an4_pretrained_v2.pth",
+                                             n_files=500)
 try:
     for i in range(5):
         print('Transcribed: %s' % transcribed[i])
@@ -177,8 +205,8 @@ except:
     print('Failed')
 
 #%% librispeech model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/voxforge_dataset/wav/",
-                                             "/data/voxforge_dataset/txt/",
+transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
+                                             "/data/transfer_set/test/txt/",
                                              "/models/librispeech_pretrained_v2.pth")
 try:
     for i in range(5):
@@ -188,9 +216,9 @@ try:
 except:
     print('Failed')
 
-#%% librispeech model with voxforge data
-transcribed, actual = transcribe_and_compare("/data/voxforge_dataset/wav/",
-                                             "/data/voxforge_dataset/txt/",
+#%% tedlium model with voxforge data
+transcribed, actual = transcribe_and_compare("/data/transfer_set/test/wav/",
+                                             "/data/transfer_set/test/txt/",
                                              "/models/ted_pretrained_v2.pth")
 try:
     for i in range(5):

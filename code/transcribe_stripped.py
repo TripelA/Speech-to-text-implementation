@@ -11,11 +11,11 @@ def transcribe(audio_path, spect_parser, model, decoder, device):
     # nest the spectrogram within two arrays - why?? Look in model
     # think it might have to do with the first layer being a conv2d, so it needs channel values
     # but why 4d?
-    # produces a 1x1x161x391
+    # produces a 1x1x161xn
     # 1: 1 wav file/spectrogram
     # 1: 1 x value
     # 161: 161 y values in spectrogram?
-    # 391: # channels?
+    # n: residual from wav file?
     spect = spect.view(1, 1, spect.size(0), spect.size(1))
 
     # move the spectrogram to the device
@@ -25,8 +25,16 @@ def transcribe(audio_path, spect_parser, model, decoder, device):
     input_sizes = torch.IntTensor([spect.size(3)]).int()
 
     # model the spectrogram and produce the output and output sizes
+    # out: 1 x n x len(labels) of probabilities of each class for each piece of the spectrogram
+    # output_sizes: number of pieces of the spectrogram
     out, output_sizes = model(spect, input_sizes)
 
     # decode the output sizes
+    # decoded_output: estimated transcription
+    # decoded_offsets: time step for each piece of the transcription (in the original wav file)
+    # ie. before reducing will have x number of 'S' character estimations for each component of the wav file,
+    # this tells you which position in the original probability matrix each character initially ends (so the first 36
+    # are 'S', then 7 more ' ', which means ' ' is decoded_offset 43
     decoded_output, decoded_offsets = decoder.decode(out, output_sizes)
+
     return decoded_output, decoded_offsets
