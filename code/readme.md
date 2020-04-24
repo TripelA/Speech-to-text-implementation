@@ -9,6 +9,7 @@ This analysis relies on some pretrained DeepSpeech models, which are unfortunate
 These models must be downloaded in order to use the [`Transcribe_and_Compare.py`](https://github.com/TripelA/ML2_FinalProject/blob/master/code/Transcribe_and_compare.py) code
 
 **Dataset**
+
 To download the voxforge training and testing sets, please clone the following repo using the commands:
 
 > `git clone https://github.com/chentinghao/download_google_drive.git`
