@@ -15,7 +15,6 @@ os.environ[
 # dummy API call to verify authorization
 client = speech_v1.SpeechClient()
 
-
 def sample_recognize(local_file_path):
     """
     Transcribe a short audio file using synchronous speech recognition
