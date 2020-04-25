@@ -27,7 +27,9 @@ def load_audio(path):
     # and sound (len(wav) x 1) - from voxforge test file 1 is len 102,400
     sample_rate, sound = read(path)
 
-    # normalize by dividing by constant - max value possible for given encoding, so setting between [-1, 1]
+    # normalize by dividing by constant - max value possible for given encoding [consider 16 bit pulse code
+    # modulation], so setting between [-1, 1]
+
     sound = sound.astype('float32') / 32767  # normalize audio
 
     # if sound is multidimensional, try to reshape to an n x 1 array
@@ -118,7 +120,7 @@ class SpectrogramParser(AudioParser):
         #     if add_noise:
         #         y = self.noiseInjector.inject_noise(y)
 
-        # number of fft points (sample rate * window size = total points)
+        # number of fft points (amplitudes) (sample rate * window size = total points)
         # eg. voxforgetest[1] = 320
         n_fft = int(self.sample_rate * self.window_size)
 
@@ -126,6 +128,7 @@ class SpectrogramParser(AudioParser):
         win_length = n_fft
 
         # size to hop through spectrogram window
+        # 50% overlap, go forward by 160 amp values to get to the next window
         # eg. 160 for voxforgetest[1] and an4
         hop_length = int(self.sample_rate * self.window_stride)
 
