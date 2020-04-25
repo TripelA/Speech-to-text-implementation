@@ -51,8 +51,8 @@ def sample_recognize(local_file_path):
     except:
         return " "  # returns empty string if the API returns no transcription
 
-path_txt = os.getcwd()+"/voxforge_sample_files/test/txt"
-path_wav = os.getcwd()+"/voxforge_sample_files/test/wav"
+path_txt = "./voxforge_sample_files/test/txt/"
+path_wav = "./voxforge_sample_files/test/wav/"
 
 texts = []
 trans = []
@@ -60,10 +60,10 @@ WER = []
 CER = []
 
 for each in tqdm(os.listdir(path_txt)):
-    with open("./voxforge_sample_files/test/txt/" + each, "r") as file:
+    with open(path_txt + each, "r") as file:
         text = file.read()
         texts.append(text)
-    tran = sample_recognize("./voxforge_sample_files/test/wav/" + each[:-4] + ".wav")
+    tran = sample_recognize(path_wav + each[:-4] + ".wav")
     trans.append(tran)
 
     cer = Levenshtein.distance(tran.replace(' ', ''), text.replace(' ', ''))
@@ -84,4 +84,3 @@ for each in tqdm(os.listdir(path_txt)):
 print('Completed Parsing')
 print('Mean Levenshtein distance (CER): %f' % np.mean(CER))
 print('Mean Levenshtein distance (WER): %f' % np.mean(WER))
-
