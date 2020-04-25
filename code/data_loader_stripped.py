@@ -145,7 +145,10 @@ class SpectrogramParser(AudioParser):
         # spect is n x m (161x641)
         # phase is n x m (161x641)
         spect, phase = librosa.magphase(D)
+
         # S = log(S+1)
+        # S = log(S+1) Return the natural logarithm of one plus the input array, element-wise, + 1 as spect could be
+        # very small example 1e-99
         spect = np.log1p(spect)
 
         # turn to floattensor
