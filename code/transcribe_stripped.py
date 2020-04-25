@@ -14,8 +14,8 @@ def transcribe(audio_path, spect_parser, model, decoder, device):
     # produces a 1x1x161xn
     # 1: 1 wav file/spectrogram
     # 1: 1 x value
-    # 161: 161 y values in spectrogram?
-    # n: residual from wav file?
+    # n: number of windows from spectrogram (seemingly 161 for all files)
+    # m: number of frequency bands (641 for voxforgesample/test[1]
     spect = spect.view(1, 1, spect.size(0), spect.size(1))
 
     # move the spectrogram to the device
@@ -25,7 +25,7 @@ def transcribe(audio_path, spect_parser, model, decoder, device):
     input_sizes = torch.IntTensor([spect.size(3)]).int()
 
     # model the spectrogram and produce the output and output sizes
-    # out: 1 x n x len(labels) of probabilities of each class for each piece of the spectrogram
+    # out: 1 x len(data)/win_length x len(labels) of probabilities of each class for each piece of the spectrogram
     # output_sizes: number of pieces of the spectrogram
     out, output_sizes = model(spect, input_sizes)
 

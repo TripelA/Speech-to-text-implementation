@@ -24,10 +24,10 @@ windows = {'hamming': scipy.signal.hamming, 'hann': scipy.signal.hann, 'blackman
 def load_audio(path):
 
     # read audio file using scipy.io.wavfile read, return sample rate (16000)
-    # and sound (len(wav) x 1)
+    # and sound (len(wav) x 1) - from voxforge test file 1 is len 102,400
     sample_rate, sound = read(path)
 
-    # normalize by dividing by constant - not sure why
+    # normalize by dividing by constant - max value possible for given encoding, so setting between [-1, 1]
     sound = sound.astype('float32') / 32767  # normalize audio
 
     # if sound is multidimensional, try to reshape to an n x 1 array
@@ -106,7 +106,7 @@ class SpectrogramParser(AudioParser):
         # probability of noise injection
         self.noise_prob = audio_conf.get('noise_prob')
 
-    # function to parse audio - takes path to wav file as input
+    # function to parse audio - takes path to wav file as input and returns spectrogram
     def parse_audio(self, audio_path):
 
         # specific function to load audio with volume perturb, otherwise load audio
@@ -119,24 +119,28 @@ class SpectrogramParser(AudioParser):
         #         y = self.noiseInjector.inject_noise(y)
 
         # number of fft points (sample rate * window size = total points)
+        # eg. voxforgetest[1] = 320
         n_fft = int(self.sample_rate * self.window_size)
 
-        # set window length
+        # set window length (320 hz)
         win_length = n_fft
 
         # size to hop through spectrogram window
+        # eg. 160 for voxforgetest[1] and an4
         hop_length = int(self.sample_rate * self.window_stride)
 
         # STFT = computes discrete fourier transform, see
         # https://librosa.github.io/librosa/generated/librosa.core.stft.html
-        # create an nxm sized array from y, where n-1 * m-1 = len(y), adds one to each dimension
+        # create an nxm sized array from y where n is the n_fft/2 - 1, is such that
+        # (n-1)*(m-1) = len(y); n = 160 = hop_length
+        # 161 x 641
         D = librosa.stft(y, n_fft=n_fft, hop_length=hop_length,
                          win_length=win_length, window=self.window)
 
         # magphase = separate a spectorgram into magnitude and phase, see more at
         # https://librosa.github.io/librosa/generated/librosa.core.magphase.html
-        # spect is (n*m)*1
-        # phase is n x m
+        # spect is n x m (161x641)
+        # phase is n x m (161x641)
         spect, phase = librosa.magphase(D)
         # S = log(S+1)
         spect = np.log1p(spect)
@@ -152,9 +156,10 @@ class SpectrogramParser(AudioParser):
             spect.div_(std)
 
         # augment if needed, default is False
-        # if self.spec_augment:
         #     spect = spec_augment(spect)
+        # if self.spec_augment:
 
         # return spectrogram (which is magnitude component)
+        # 161x641
         return spect
 
