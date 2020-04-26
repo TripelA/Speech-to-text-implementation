@@ -44,10 +44,10 @@ class DefaultArguments():
         self.window_size = .02  # 'Window size for spectrogram in seconds'
         self.window_stride = .01  # 'Window stride for spectrogram in seconds'
         self.window = 'hamming'  # 'Window type for spectrogram generation'
-        self.hidden_size = 800  # 'Hidden size of RNNs'
+        self.hidden_size = 1000  # 'Hidden size of RNNs'
         self.hidden_layers = 5  # 'Number of RNN layers'
         self.rnn_type = 'lstm'  # 'Type of the RNN. rnn|gru|lstm are supported'
-        self.epochs = 70 # Number of training epochs
+        self.epochs = 50 # Number of training epochs
         self.cuda = 'cuda' #Use cuda to train model'
         self.lr = 3e-4 #'initial learning rate'
         self.momentum = 0.9 #'momentum'
@@ -146,6 +146,7 @@ if __name__ == '__main__':
     # if main_proc and args.tensorboard:
     #     tensorboard_logger = TensorBoardLogger(args.id, args.log_dir, args.log_params)
 
+
     avg_loss, start_epoch, start_iter, optim_state, amp_state = 0, 0, 0, None, None
 
     # start from the pretrained models
@@ -158,7 +159,7 @@ if __name__ == '__main__':
         # load pretrained model
         model = DeepSpeech.load_model_package(package)
 
-        # set labels A-z, -, ' ', total 29
+        # set labels A-Z, -, ' ', total 29
         labels = model.labels
 
 
@@ -237,10 +238,15 @@ if __name__ == '__main__':
     # print(device)
     model = model.to(device)
     parameters = model.parameters()
-    # args.loss_scale = args.loss_scale.to(device)
+
+
+    # Declare model and optimizer as usual, with default (FP32) precision
     optimizer = torch.optim.SGD(parameters, lr=args.lr,
                                 momentum=args.momentum, nesterov=True, weight_decay=1e-5)
 
+    # amp is automatic mixed precision
+    # Allow Amp to perform casts as required by the opt_level
+    # Amp allows users to easily experiment with different pure and mixed precision modes.
     model, optimizer = amp.initialize(model, optimizer,
                                       opt_level=args.opt_level,
                                       keep_batchnorm_fp32=args.keep_batchnorm_fp32,
@@ -269,11 +275,18 @@ if __name__ == '__main__':
         for i, (data) in enumerate(train_loader, start=start_iter):
             if i == len(train_sampler):
                 break
+
+            # input_percentages = sample seq len/ max seq len in the batch
+            # target sizes = len of target in every seq
             inputs, targets, input_percentages, target_sizes = data
+
+            # every input size input % * max seq length size(3)
             input_sizes = input_percentages.mul_(int(inputs.size(3))).int()
+
             # measure data loading time
             data_time.update(time.time() - end)
             inputs = inputs.to(device)
+
 
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
