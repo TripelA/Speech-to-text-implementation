@@ -10,8 +10,8 @@ import torch
 
 from transcribe_stripped import transcribe
 from data_loader_stripped import SpectrogramParser
-from utils import load_model       # strip
-from decoder_stripped import GreedyDecoder  # strip, and check into beam decoder
+from utils_stripped import load_model
+from decoder_stripped import GreedyDecoder
 
 
 # temporary
@@ -194,8 +194,7 @@ except:
 #%% an4 model with voxforge test data
 transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
                                              "/data/voxforge_sample_files/test/txt/",
-                                             "/models/an4_pretrained_v2.pth",
-                                             n_files=500)
+                                             "/models/an4_pretrained_v2.pth")
 try:
     for i in range(5):
         print('Transcribed: %s' % transcribed[i])
