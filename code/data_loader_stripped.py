@@ -118,7 +118,7 @@ class SpectrogramParser(AudioParser):
         #     if add_noise:
         #         y = self.noiseInjector.inject_noise(y)
 
-        # number of fft points (sample rate * window size = total points)
+        # number of fft points (sample rate * window size = total points) per second
         # eg. voxforgetest[1] = 320
         n_fft = int(self.sample_rate * self.window_size)
 
@@ -132,7 +132,7 @@ class SpectrogramParser(AudioParser):
         # STFT = computes discrete fourier transform, see
         # https://librosa.github.io/librosa/generated/librosa.core.stft.html
         # create an nxm sized array from y where n is the n_fft/2 - 1, is such that
-        # (n-1)*(m-1) = len(y); n = 160 = hop_length
+        # (n-1)*(m-1) = len(y); n = 161 = hop_length + 1
         # 161 x 641
         D = librosa.stft(y, n_fft=n_fft, hop_length=hop_length,
                          win_length=win_length, window=self.window)
@@ -373,3 +373,16 @@ class DistributedBucketingSampler(Sampler):
         bin_ids = list(torch.randperm(len(self.bins), generator=g))
         self.bins = [self.bins[i] for i in bin_ids]
 
+
+def fft_plot(audio, rate):
+    n = len(audio)
+    T = 1/rate
+    yf = scipy.fft(audio)
+    xf = np.linspace(0, 1.0/(2.0*T), int(n/2))
+    fig, ax = plt.subplots()
+    ax.plot(xf, 2.0/n * np.abs(yf[:n//2]))
+    plt.grid()
+    plt.xlabel('Frequency')
+    plt.ylabel('Magnitude')
+    plt.title('Fourier Transform')
+    return plt.show()
