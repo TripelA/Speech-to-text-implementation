@@ -54,8 +54,8 @@ def sample_recognize(local_file_path):
     except:
         return " "  # returns empty string if the API returns no transcription
 
-path_txt = "./voxforge_sample_files/test/txt/"
-path_wav = "./voxforge_sample_files/test/wav/"
+path_txt = "./voxforge_sample_files/test/txt/" # change path to folder name
+path_wav = "./voxforge_sample_files/test/wav/" # change path to folder name
 
 texts = []
 trans = []
