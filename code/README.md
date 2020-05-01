@@ -1,7 +1,7 @@
 # Code repository
 **Set up**
 
-In order to install required packages to run this codebase please execute below command
+In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands
 
 `pip install -r requirement.txt`
 
