@@ -43,10 +43,12 @@ To download the voxforge training and testing sets, please clone the following r
 >
 > `cd download_google_drive`
 >
-> `python download_gdrive.py 1ht6iB3HQ9ULHhDeQS5IS1lcQa4wjYCRA PATH/FOR/DOWNLOAD/NAME.zip` <- set whatever filepath and name you want
+> `python download_gdrive.py 1yqf-NFeGHOh2RtqISmNlgPCsHsNuM_h_ PATH/FOR/DOWNLOAD/NAME.zip` <- set whatever filepath and name you want
 >
 > `cd PATH/FOR/DOWNLOAD/`
 >
 > `unzip NAME.zip`
+
+(The file can additionally be found at https://drive.google.com/open?id=1yqf-NFeGHOh2RtqISmNlgPCsHsNuM_h_)
 
 This will create a directory called `transfer_set`, with two nested directories, `train` and `test`. Keep the filepaths to the `train` and `test` directories available, as you will be able to use them in the `Transcribe_and_compare.py` script as the wav directory and the txt directories within the `test` folder. Additionally, the contents of the `train` folder will be available for any model tuning. 
