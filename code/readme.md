@@ -1,4 +1,25 @@
 # Code repository
+**Set up**
+
+In order to install required packages to run this codebase please execute below command
+pip install -r requirement.txt
+
+Install this fork for Warp-CTC bindings:
+
+git clone https://github.com/SeanNaren/warp-ctc.git
+cd warp-ctc; mkdir build; cd build; cmake ..; make
+export CUDA_HOME="/usr/local/cuda"
+cd ../pytorch_binding && python setup.py install
+
+
+Install NVIDIA apex:
+
+git clone --recursive https://github.com/NVIDIA/apex.git
+cd apex && pip install.
+
+Finally clone this repo and run this within the repo:
+
+pip install -r requirements.txt
 
 **Models**
 
