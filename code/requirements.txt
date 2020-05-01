@@ -6,3 +6,4 @@ librosa
 tqdm
 requests
 google.cloud
+setuptools
