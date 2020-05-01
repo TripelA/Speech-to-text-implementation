@@ -29,7 +29,8 @@ Finally clone this repo and run this within the repo:
 
 This analysis relies on some pretrained DeepSpeech models, which are unfortunately too large to upload directly to GitHub. In order to use them, please create a `models` directory within the code folder by running `mkdir models; cd models`. Once this folder is created and you are inside the folder, run the following commands:
 
-`> - wget https://github.com/SeanNaren/deepspeech.pytorch/releases/download/v2.0/an4_pretrained_v2.pth (this is the an4 model)
+`
+> - wget https://github.com/SeanNaren/deepspeech.pytorch/releases/download/v2.0/an4_pretrained_v2.pth (this is the an4 model)
 
 > - wget https://github.com/SeanNaren/deepspeech.pytorch/releases/download/v2.0/librispeech_pretrained_v2.pth (this is the LibriSpeech Model)
 
@@ -41,8 +42,8 @@ These models must be downloaded in order to use the [`Transcribe_and_Compare.py`
 
 To download the voxforge training and testing sets, please clone the following repo using the commands:
 
-
-`> git clone https://github.com/chentinghao/download_google_drive.git
+`
+> git clone https://github.com/chentinghao/download_google_drive.git
 
 > cd download_google_drive
 
