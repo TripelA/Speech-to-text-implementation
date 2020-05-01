@@ -20,7 +20,7 @@ Install NVIDIA apex:
 
 `git clone --recursive https://github.com/NVIDIA/apex.git`
 
-`cd apex && pip install.`
+`cd apex && pip install .`
 
 Finally clone this repo and run this within the repo:
 
