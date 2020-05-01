@@ -9,6 +9,8 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `git clone https://github.com/SeanNaren/warp-ctc.git`
 
+`apt install cmake`
+
 `cd warp-ctc; mkdir build; cd build; cmake ..; make`
 
 `export CUDA_HOME="/usr/local/cuda"`
