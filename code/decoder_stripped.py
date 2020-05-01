@@ -71,7 +71,7 @@ class Decoder(object):
         """
         raise NotImplementedError
 
-
+# LEFT IN TO NOT POTENTIALLY BREAK OTHER CODE, BUT NOT USED DURING TRAINING
 class BeamCTCDecoder(Decoder):
     def __init__(self, labels, lm_path=None, alpha=0, beta=0, cutoff_top_n=40, cutoff_prob=1.0, beam_width=100,
                  num_processes=4, blank_index=0):
