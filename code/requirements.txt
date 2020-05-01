@@ -4,3 +4,4 @@ visdom
 wget
 librosa
 tqdm
+requests
