@@ -5,7 +5,7 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `pip install -r requirement.txt`
 
-To get the CTC loss function, install this fork for Warp-CTC bindings:
+**To get the CTC loss function, install this fork for Warp-CTC bindings:**
 
 `git clone https://github.com/SeanNaren/warp-ctc.git`
 
@@ -16,13 +16,13 @@ To get the CTC loss function, install this fork for Warp-CTC bindings:
 `cd ../pytorch_binding && python setup.py install`
 
 
-Install NVIDIA apex:
+**Install NVIDIA apex:**
 
 `git clone --recursive https://github.com/NVIDIA/apex.git`
 
 `cd apex && pip install .`
 
-Finally clone this repo and run this within the repo:
+**Finally clone this repo and run this within the repo:**
 
 `pip install -r requirements.txt`
 
