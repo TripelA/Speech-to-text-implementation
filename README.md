@@ -1,4 +1,5 @@
-# ML2_FinalProject
+# Machine Learning 2 Final Project - Group 6
+
 Repo for ML2 final project! :) 
 
 Check the Wiki tab for data links and other resources.
