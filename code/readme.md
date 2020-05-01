@@ -5,7 +5,7 @@ In order to install required packages to run this codebase please execute below 
 
 `pip install -r requirement.txt`
 
-Install this fork for Warp-CTC bindings:
+To get the CTC loss function, install this fork for Warp-CTC bindings:
 
 `git clone https://github.com/SeanNaren/warp-ctc.git`
 
