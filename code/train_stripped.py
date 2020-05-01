@@ -14,6 +14,8 @@ from logger import VisdomLogger, TensorBoardLogger
 
 
 from data_loader_stripped import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
+# from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
+
 from decoder_stripped import GreedyDecoder
 from model import DeepSpeech, supported_rnns
 from test import evaluate
@@ -70,7 +72,7 @@ class DefaultArguments():
         self.continue_from = 'librispeech_pretrained_v2.pth'  # continue from checkpoint model
         self.finetune = True  # 'Finetune the model from checkpoint "continue_from"'
         self.speed_volume_perturb = False  # 'Use random tempo and gain perturbations.'
-        self.spec_augment = 'Use simple spectral augmentation on mel spectograms.'
+        self.spec_augment = False
         self.noise_dir = None  # 'Directory to inject noise into audio. If default, noise Inject not added'
         self.noise_prob = 0.4  # 'Probability of noise being added per sample'
         self.noise_min = 0.0  # 'Minimum noise level to sample from. (1.0 means all noise, not original signal)'
@@ -125,6 +127,7 @@ if __name__ == '__main__':
 
     # set device to cuda
     device = torch.device("cuda" if args.cuda else "cpu")
+    os.system("export CUDA_VISIBLE_DEVICES=1")
 
     # if the number of distributed process is 1, set the value to True
     args.distributed = args.world_size > 1

@@ -14,7 +14,7 @@ from scipy.io.wavfile import read
 import math
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
-# from .spec_augment import spec_augment
+from spec_augment import spec_augment
 
 # define different windows and their associated signals - READ INTO
 windows = {'hamming': scipy.signal.hamming, 'hann': scipy.signal.hann, 'blackman': scipy.signal.blackman,
@@ -60,7 +60,7 @@ class AudioParser(object):
 
 
 class SpectrogramParser(AudioParser):
-    def __init__(self, audio_conf, normalize=False, speed_volume_perturb=False):
+    def __init__(self, audio_conf, normalize=False, speed_volume_perturb=False, spec_augment=False):
         """
         Parses audio file into spectrogram with optional normalization and various augmentations
         :param audio_conf: Dictionary containing the sample rate, window and the window length/stride in seconds
@@ -94,7 +94,7 @@ class SpectrogramParser(AudioParser):
         self.speed_volume_perturb = speed_volume_perturb
 
         # whether or not to augment during training, default is False
-        # self.spec_augment = spec_augment
+        self.spec_augment = spec_augment
 
         # injecting noise, for robustness when training
         # NOTE: most models did not use noise injection, so will return None as noise_dir = None
@@ -195,6 +195,7 @@ class SpectrogramDataset(Dataset, SpectrogramParser):
 
         # create the dictionary mapping characters to numerical values
         self.labels_map = dict([(labels[i], i) for i in range(len(labels))])
+
         super(SpectrogramDataset, self).__init__(audio_conf, normalize, speed_volume_perturb, spec_augment)
 
     # function to get item when indexing class object
