@@ -3,7 +3,7 @@
 
 In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands
 
-`pip install -r requirement.txt`
+`pip install -r requirements.txt`
 
 **To get the CTC loss function, install this fork for Warp-CTC bindings:**
 
