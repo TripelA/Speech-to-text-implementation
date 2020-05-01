@@ -41,8 +41,8 @@ These models must be downloaded in order to use the [`Transcribe_and_Compare.py`
 
 To download the voxforge training and testing sets, please clone the following repo using the commands:
 
-`
-> git clone https://github.com/chentinghao/download_google_drive.git
+
+`> git clone https://github.com/chentinghao/download_google_drive.git
 
 > cd download_google_drive
 
@@ -50,6 +50,6 @@ To download the voxforge training and testing sets, please clone the following r
 
 > cd PATH/FOR/DOWNLOAD/
 
-> unzip NAME.zip
-`
+> unzip NAME.zip`
+
 This will create a directory called `transfer_set`, with two nested directories, `train` and `test`. Keep the filepaths to the `train` and `test` directories available, as you will be able to use them in the `Transcribe_and_compare.py` script as the wav directory and the txt directories within the `test` folder. Additionally, the contents of the `train` folder will be available for any model tuning. 
