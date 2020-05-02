@@ -1,122 +1,91 @@
-from google.cloud import speech_v1
-from google.cloud.speech_v1 import enums
+# Import packages
 import io
 import os
+import numpy as np
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'path/Machine-Learning-2-b1acfc61fd57.json' # change this
+os.system("sudo -H pip install --upgrade python-Levenshtein")
+import Levenshtein
+from tqdm import tqdm
+from google.cloud import speech_v1  # python wrapper for google cloud API calls
+
+# Assign google cloud API credentials variable to personal credentials file
+os.environ[
+    'GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + '/Machine-Learning-2-bdc5dbdf312d.json'  # add own credentials
+
+# dummy API call to verify authorization
 client = speech_v1.SpeechClient()
 
 def sample_recognize(local_file_path):
     """
     Transcribe a short audio file using synchronous speech recognition
-
-    Args:
-      local_file_path Path to local audio file, e.g. /path/audio.wav
+    :param
+    local_file_path : Path to local audio file (works for flac and wav files)
+    :returns
+    Most probable transcription for given audio file
     """
-
     client = speech_v1.SpeechClient()
 
-    # local_file_path = 'resources/brooklyn_bridge.raw'
+    language_code = "en-US"  # The language of the supplied audio
 
-    # The language of the supplied audio
-    language_code = "en-US"
+    sample_rate_hertz = 16000  # Sample rate in Hertz of the audio data sent
 
-    # Sample rate in Hertz of the audio data sent
-    sample_rate_hertz = 16000
+    # encoding = enums.RecognitionConfig.AudioEncoding.FLAC # add encoding type if not using flac or wav files
 
-    # Encoding of audio data sent. This sample sets this explicitly.
-    # This field is optional for FLAC and WAV audio formats.
-    encoding = enums.RecognitionConfig.AudioEncoding.FLAC
-    config = {
-        "language_code": language_code,
-        "sample_rate_hertz": sample_rate_hertz,
-        "encoding": encoding,
-    }
+    config = {"language_code": language_code,
+              "sample_rate_hertz": sample_rate_hertz,
+              # "encoding" : encoding,
+              "audio_channel_count": 1,
+              }
+
     with io.open(local_file_path, "rb") as f:
         content = f.read()
+
     audio = {"content": content}
+    response = client.recognize(config, audio)  # doing the transcription through Google Speech-to-Text API
 
-    response = client.recognize(config, audio)
-    for result in response.results:
-        # First alternative is the most probable result
-        alternative = result.alternatives[0]
-        print(u"Transcript: {}".format(alternative.transcript.upper()))
-    return alternative.transcript.upper()
+    # some API responses return no result/transcription
+    try:
+        for result in response.results:
+            # First alternative is the most probable result (highest confidence)
+            alternative = result.alternatives[0]
+        return alternative.transcript.upper()  # converting to upper for uniformity in evaluation
+    except:
+        return " "  # returns empty string if the API returns no transcription
 
-def wer(r, h):
-    """
-    Calculation of WER with Levenshtein distance.
-    Works only for iterables up to 254 elements (uint8).
-    O(nm) time ans space complexity.
+path_txt = "./voxforge_sample_files/test/txt/" # change path to folder name
+path_wav = "./voxforge_sample_files/test/wav/" # change path to folder name
 
-    Parameters
-    ----------
-    r : list
-    h : list
+texts = []
+trans = []
+WER = []
+CER = []
 
-    Returns
-    -------
-    int
-    """
-    # initialisation
-    import numpy
+for each in tqdm(os.listdir(path_txt)):
+    # Read the original/gold-standard transcription
+    with open(path_txt + each, "r") as file:
+        text = file.read()
+    texts.append(text)
+    
+    # Function call to obtain decoded transcription from API
+    tran = sample_recognize(path_wav + each[:-4] + ".wav")
+    trans.append(tran)
 
-    d = numpy.zeros((len(r) + 1) * (len(h) + 1), dtype=numpy.uint8)
-    d = d.reshape((len(r) + 1, len(h) + 1))
-    for i in range(len(r) + 1):
-        for j in range(len(h) + 1):
-            if i == 0:
-                d[0][j] = j
-            elif j == 0:
-                d[i][0] = i
+    # Calculate Character Error Rate (CER)
+    cer = Levenshtein.distance(tran.replace(' ', ''), text.replace(' ', ''))
+    CER = np.append(CER, cer)
+    
+    # Calculate Word Error Rate (WER)
+    uniquewords = set(tran.split() + text.split())  # split output strings by spaces and create set of unique words
+    word2char = dict(zip(uniquewords, range(len(uniquewords))))  # create dictionary of unique words
 
-    # computation
-    for i in range(1, len(r) + 1):
-        for j in range(1, len(h) + 1):
-            if r[i - 1] == h[j - 1]:
-                d[i][j] = d[i - 1][j - 1]
-            else:
-                substitution = d[i - 1][j - 1] + 1
-                insertion = d[i][j - 1] + 1
-                deletion = d[i - 1][j] + 1
-                d[i][j] = min(substitution, insertion, deletion)
+    # map words to the word2char dictionary which is converted to character array (Levenshtein package only accepts strings)
+    w1 = [chr(word2char[w]) for w in tran.split()]
+    w2 = [chr(word2char[w]) for w in text.split()]
 
-    return d[len(r)][len(h)]
+    # calculate distance from word vectors and append to running total
+    wer = Levenshtein.distance(''.join(w1), ''.join(w2))
+    WER = np.append(WER, wer)
 
-path = os.getcwd()+"/LibriSpeech/dev-clean/84/121123/" # change this
-
-# Get file locations
-audio_files = []
-for f in os.listdir(path):
-    if f[-4:]==".txt":
-        transcript = f
-    else:
-        audio_files.append(f)
-
-# Get audio files
-locs = []
-for f in audio_files:
-    locs.append(f[:-5])
-
-# Get original transcript
-with open(transcript, "r") as f:
-    trans = f.read().split("\n")
-
-# Using google speech-to-text
-# sample usage : sample_recognize("audio_file_path")
-Texts = []
-Trans = []
-for name in locs:
-    for file in trans:
-        if name in file:
-            Texts.append(file.replace(name,""))
-            print("Original:",file.replace(name,""))
-            Trans.append(sample_recognize(path+"/"+name+".flac"))
-
-Scores = []
-for i in range(len(Texts)):
-    score = wer(Texts[i].split(),Trans[i].split())
-    Scores.append(score)
-
-print("Average WER score:",sum(Scores)/len(Scores))
-
+print('Completed Parsing')
+print('Mean Levenshtein distance (CER): %f' % np.mean(CER))
+print('Mean Levenshtein distance (WER): %f' % np.mean(WER))
