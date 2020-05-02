@@ -1,7 +1,7 @@
 # Code repository
 **Set up**
 
-In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands
+In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands. You also need to have the `code` folder as your current working directory.
 
 `git clone https://github.com/TripelA/Final-Project-Group6.git`
 
