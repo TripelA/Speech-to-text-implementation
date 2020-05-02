@@ -36,8 +36,8 @@ class DefaultArguments():
         self.id = 'Deepspeech training'
 
         # TODO check paths
-        self.train_manifest = 'data/voxforge_train_manifest_v2.csv'
-        self.val_manifest = 'data/voxforge_test_manifest.csv'
+        self.train_manifest = 'voxforge_train_manifest.csv'
+        self.val_manifest = 'voxforge_test_manifest.csv'
 
         # sampling_rate = 16k says that this audio was recorded(sampled) with a sampling frequency of 16k. In other
         # words, while recording this file we were capturing 16000 amplitudes every second.
@@ -69,7 +69,7 @@ class DefaultArguments():
         self.save_folder = 'models/'  # 'Location to save epoch models'
         self.model_path = 'models/iteration5.pth'  # 'Location to save best validation model'
         # TODO check path
-        self.continue_from = 'librispeech_pretrained_v2.pth'  # continue from checkpoint model
+        self.continue_from = 'models/librispeech_pretrained_v2.pth'  # continue from checkpoint model
         self.finetune = True  # 'Finetune the model from checkpoint "continue_from"'
         self.speed_volume_perturb = False  # 'Use random tempo and gain perturbations.'
         self.spec_augment = False
