@@ -64,3 +64,7 @@ To download the voxforge training and testing sets, please use the following com
 (The file can additionally be found [here](https://drive.google.com/open?id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG))
 
 This will create a directory called `transfer_set`, with two nested directories, `train` and `test`. Keep the filepaths to the `train` and `test` directories available, as you will be able to use them in the `Transcribe_and_compare.py` script as the wav directory and the txt directories within the `test` folder. Additionally, the contents of the `train` folder will be available for any model tuning. 
+
+Once the dataset is load to create csv file like  /path/to/audio.wav,/path/to/text.txt /path/to/audio2.wav,/path/to/text2.txt  ... run following command
+
+`python voxforge.py`
