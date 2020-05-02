@@ -7,19 +7,23 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `cd Final-Project-Group6/code/`
 
-`pip install -r requirements.txt`
+`sudo pip install -r requirements.txt`
 
 **To get the CTC loss function, install this fork for Warp-CTC bindings:**
 
+` cd ../..`
+
 `git clone https://github.com/SeanNaren/warp-ctc.git`
 
-`apt install cmake`
+`sudo apt install cmake`
 
 `cd warp-ctc; mkdir build; cd build; cmake ..; make`
 
 `export CUDA_HOME="/usr/local/cuda"`
 
-`cd ../pytorch_binding && python setup.py install`
+`cd ../pytorch_binding`
+
+`sudo python3 setup.py install`
 
 
 **Install NVIDIA apex:**
@@ -28,9 +32,6 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `cd apex && pip install .`
 
-**Finally clone this repo and run this within the repo:**
-
-`pip install -r requirements.txt`
 
 **Models**
 
