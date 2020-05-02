@@ -10,7 +10,7 @@ from google.cloud import speech_v1  # python wrapper for google cloud API calls
 
 # Assign google cloud API credentials variable to personal credentials file
 os.environ[
-    'GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + '/Machine-Learning-2-bdc5dbdf312d.json'  # add own credentials
+    'GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + '/_own_credentials.json'  # add own credentials
 
 # dummy API call to verify authorization
 client = speech_v1.SpeechClient()
