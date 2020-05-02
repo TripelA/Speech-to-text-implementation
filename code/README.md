@@ -5,6 +5,8 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `git clone https://github.com/TripelA/Final-Project-Group6.git`
 
+`cd Final-Project-Group6/code/`
+
 `pip install -r requirements.txt`
 
 **To get the CTC loss function, install this fork for Warp-CTC bindings:**
