@@ -32,6 +32,10 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `cd apex && pip install .`
 
+Finally cd again to main code repo
+
+`cd Final-Project-Group6/code/`
+
 
 **Models**
 
