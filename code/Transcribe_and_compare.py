@@ -35,6 +35,7 @@ def transcribe_and_compare(wav_dir, txt_dir, model_dir, n_files=500, verbose=Fal
 
         # load list of wav files that we will transcribe
         wav_dir = os.getcwd() + wav_dir
+
         wav_files = [wav_dir + f for f in os.listdir(wav_dir) if f[-4:] == '.wav']
         print('wav files found 1/3')
 
@@ -225,9 +226,10 @@ except:
     print('Failed')
 
 #%% Transfer Learning model with test voxforge data
-transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
-                                             "/data/voxforge_sample_files/test/txt/",
-                                             "/models/iteration5.py")
+
+transcribed, actual = transcribe_and_compare("/voxforge_sample_files/test/wav/",
+                                             "/voxforge_sample_files/test/txt/",
+                                             "/models/iteration5.pth")
 try:
     for i in range(5):
         print('Transcribed: %s' % transcribed[i])
