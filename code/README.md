@@ -74,3 +74,7 @@ Or, if you want more specificity over the exact training and testing file paths,
 To run train.py execute following command
 
 `python train_stripped.py`
+
+To transcibe file, execute following command
+
+`python Transcribe_and_compare.py`
