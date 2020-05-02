@@ -10,7 +10,7 @@ import torch.utils.data.distributed
 from apex import amp
 from apex.parallel import DistributedDataParallel
 from warpctc_pytorch import CTCLoss
-from logger import VisdomLogger, TensorBoardLogger
+# from logger import VisdomLogger, TensorBoardLogger
 
 
 from data_loader_stripped import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
@@ -18,8 +18,8 @@ from data_loader_stripped import AudioDataLoader, SpectrogramDataset, BucketingS
 
 from decoder_stripped import GreedyDecoder
 from model import DeepSpeech, supported_rnns
-from test import evaluate
-from utils import reduce_tensor, check_loss, remove_parallel_wrapper
+from test_stripped import evaluate
+from utils_stripped import reduce_tensor, check_loss, remove_parallel_wrapper
 
 torch.manual_seed(123456)
 torch.cuda.manual_seed_all(123456)
