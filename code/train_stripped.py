@@ -52,7 +52,7 @@ class DefaultArguments():
         self.hidden_size = 1000  # 'Hidden size of RNNs'
         self.hidden_layers = 5  # 'Number of RNN layers'
         self.rnn_type = 'lstm'  # 'Type of the RNN. rnn|gru|lstm are supported'
-        self.epochs = 30  # Number of training epochs
+        self.epochs = 2  # Number of training epochs
         self.cuda = 'cuda'  # Use cuda to train model'
         self.lr = 3e-4  # 'initial learning rate'
         self.momentum = 0.9  # 'momentum'
