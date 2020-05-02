@@ -227,7 +227,7 @@ except:
 #%% Transfer Learning model with test voxforge data
 transcribed, actual = transcribe_and_compare("/data/voxforge_sample_files/test/wav/",
                                              "/data/voxforge_sample_files/test/txt/",
-                                             "ENTER PATH TO NEW MODEL HERE")
+                                             "/models/iteration5.py")
 try:
     for i in range(5):
         print('Transcribed: %s' % transcribed[i])
