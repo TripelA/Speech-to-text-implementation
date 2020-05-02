@@ -67,3 +67,7 @@ This will create a directory called `transfer_set`, with two nested directories,
 
 
 Or, if you want more specificity over the exact training and testing file paths, utilize the `create_manifest.py` script to generate your own training and testing manifests for model training
+
+To run train.py execute following command
+
+`python train_stripped.py`
