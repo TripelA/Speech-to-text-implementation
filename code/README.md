@@ -1,7 +1,7 @@
 # Code repository
 **Set up**
 
-In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands
+In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands. You also need to have the `code` folder as your current working directory.
 
 `git clone https://github.com/TripelA/Final-Project-Group6.git`
 
@@ -36,6 +36,12 @@ Finally cd again to main code repo
 
 `cd Final-Project-Group6/code/`
 
+**Run Google Speech-to-Text API**
+
+Obtain json credentials from your Google cloud service account (https://console.cloud.google.com/apis/credentials/)
+
+Replace the json file path with the "/_own_credentials.json" string in the `Google_api.py` file.
+
 
 **Models**
 
@@ -67,3 +73,7 @@ This will create a directory called `transfer_set`, with two nested directories,
 
 
 Or, if you want more specificity over the exact training and testing file paths, utilize the `create_manifest.py` script to generate your own training and testing manifests for model training
+
+To run train.py execute following command
+
+`python train_stripped.py`
