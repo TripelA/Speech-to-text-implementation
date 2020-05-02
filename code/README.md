@@ -68,3 +68,5 @@ This will create a directory called `transfer_set`, with two nested directories,
 Once the dataset is load to create csv file like  /path/to/audio.wav,/path/to/text.txt /path/to/audio2.wav,/path/to/text2.txt  ... run following command
 
 `python voxforge.py`
+
+Or, if you want more specificity over the exact training and testing file paths, utilize the `create_manifest.py` script to generate your own training and testing manifests for model training
