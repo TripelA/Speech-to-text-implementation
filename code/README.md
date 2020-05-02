@@ -32,6 +32,10 @@ In order to install required packages to run this codebase, first be sure to hav
 
 `cd apex && pip install .`
 
+Finally cd again to main code repo
+
+`cd Final-Project-Group6/code/`
+
 
 **Models**
 
@@ -44,7 +48,7 @@ These models must be downloaded in order to use the [`Transcribe_and_Compare.py`
 
 **Dataset**
 
-To download the voxforge training and testing sets, please use the following commands
+To download the voxforge training and testing sets, please use the following commands within the data folder (will make redefining later filepaths easier)
 
 > `wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG' -O voxforge_train_test2.7z`
 >
@@ -52,9 +56,9 @@ To download the voxforge training and testing sets, please use the following com
 >
 > `7z  x voxforge_train_test2.7z`
 >
-> `Cd voxforge_train_test2`
+> `cd voxforge_train_test2`
 > 
-> `Mv voxforge_sample_files ..; cd ..;`
+> `mv voxforge_sample_files ..; cd ..;`
 
 
 (The file can additionally be found [here](https://drive.google.com/open?id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG))
