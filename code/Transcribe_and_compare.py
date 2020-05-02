@@ -15,8 +15,7 @@ from decoder_stripped import GreedyDecoder
 
 # temporary
 if os.getcwd()[-4:] != 'code':
-    print('Please change your working directory to the cloned repo located at \n'
-          'https://github.com/SeanNaren/deepspeech.pytorch.git \nto resolve potential filepath '
+    print('Please change your working directory to "code" folder of this repository to resolve potential filepath '
           'issues, then continue working')
 else:
     print('Loaded into the correct working directory')
