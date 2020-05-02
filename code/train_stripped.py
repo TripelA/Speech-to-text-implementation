@@ -20,6 +20,8 @@ from decoder_stripped import GreedyDecoder
 from model import DeepSpeech, supported_rnns
 from test_stripped import evaluate
 from utils_stripped import reduce_tensor, check_loss, remove_parallel_wrapper
+from utils_stripped import create_manifest
+
 
 torch.manual_seed(123456)
 torch.cuda.manual_seed_all(123456)
@@ -115,6 +117,10 @@ class AverageMeter(object):
 
 
 if __name__ == '__main__':
+
+    print('Creating manifests...')
+    create_manifest('voxforge_sample_files/train/', 'voxforge_train_manifest.csv', 1, 15)
+    create_manifest('voxforge_sample_files/test/', 'voxforge_test_manifest.csv', 1, 15)
 
     # load the default arguments
     args = DefaultArguments()
