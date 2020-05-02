@@ -5,6 +5,6 @@ wget
 librosa
 tqdm
 requests
-google.cloud
+google-cloud-speech
 setuptools
 sox
