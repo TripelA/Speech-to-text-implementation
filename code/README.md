@@ -53,13 +53,13 @@ This analysis relies on some pretrained DeepSpeech models, which are unfortunate
 
 > - `wget https://github.com/SeanNaren/deepspeech.pytorch/releases/download/v2.0/ted_pretrained_v2.pth` (this is the Tedlium dataset)
 
->- `wget https://storage.cloud.google.com/mlp-models/iteration4.pth` ( this is fine tune pre-trained model)
+>- `wget https://storage.cloud.google.com/mlp-models/iteration5.pth` ( this is fine tune pre-trained model)
 
 >- These models must be downloaded in order to use the [`Transcribe_and_Compare.py`](https://github.com/TripelA/ML2_FinalProject/blob/master/code/Transcribe_and_compare.py) code
 
 **Dataset**
 
-To download the voxforge training and testing sets, please use the following commands within the data folder (will make redefining later filepaths easier)
+To download the voxforge training and testing sets, please use the following commands within the code folder (will make redefining later filepaths easier)
 
 > `wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG' -O voxforge_train_test2.7z`
 >
@@ -80,3 +80,11 @@ This will create a directory called `transfer_set`, with two nested directories,
 To run train.py execute following command
 
 `python train_stripped.py`
+
+To run transcribe files execute following command
+
+`python Transcribe_and_compare.py`
+
+data path should be = '/voxforge_sample_files/test/wav/' and '/voxforge_sample_files/test/txt/'
+model path should be = 'models/iteration5.pth'
+If the files paths are not correct, the code will return failed, but the last librispeech4 fine tune model (iteration5) should work fine.
