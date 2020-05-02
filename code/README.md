@@ -56,9 +56,9 @@ To download the voxforge training and testing sets, please use the following com
 >
 > `7z  x voxforge_train_test2.7z`
 >
-> `Cd voxforge_train_test2`
+> `cd voxforge_train_test2`
 > 
-> `Mv voxforge_sample_files ..; cd ..;`
+> `mv voxforge_sample_files ..; cd ..;`
 
 
 (The file can additionally be found [here](https://drive.google.com/open?id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG))
