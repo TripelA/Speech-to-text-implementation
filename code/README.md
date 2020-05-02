@@ -39,7 +39,7 @@ Finally cd again to main code repo
 **Run Google Speech-to-Text API**
 
 Obtain json credentials from your Google cloud service account (https://console.cloud.google.com/apis/credentials/)
-Replace the json file path with the "_own_path.json" string in the `Google_api.py` file.
+Replace the json file path with the "_own_credentials.json" string in the `Google_api.py` file.
 
 
 **Models**
