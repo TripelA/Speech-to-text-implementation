@@ -27,7 +27,7 @@ The data for this project can be found at the following locations:
 
 - Voxforge : http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/Audio/Main/16kHz_16bit/
 
-Additionally, if you do not want to download and configure all the files yourself, please clone the original Deep Speech pytorch repository using the command `git clone https://github.com/SeanNaren/deepspeech.pytorch.git`, where you can then run the `data/an4.py`, `data/librispeech.py`, `data/ted.py` and/or `data/voxforge.py` scripts to retrieve and format the audio files for you.
+Additionally, if you do not want to download and configure all the files yourself, please clone the original Deep Speech pytorch repository **WITHIN THE CODE FOLDER** using the command `git clone https://github.com/SeanNaren/deepspeech.pytorch.git`, where you can then run the `data/an4.py`, `data/librispeech.py`, `data/ted.py` and/or `data/voxforge.py` scripts to retrieve and format the audio files for you.
 
 Be aware that downloading all of the audio files and configuring the directories will take _2-3 hours_. As most of the models investigated are pre-trained, to shorten the download time simply download the LibriSpeech data, as the specific Voxforge files used for testing can be found in a zip file on Google Drive, linked in the Code directory. 
 
