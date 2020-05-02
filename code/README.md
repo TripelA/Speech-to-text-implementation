@@ -3,7 +3,8 @@
 
 In order to install required packages to run this codebase, first be sure to have Ananconda and pytorch installed and please execute the below commands
 
-`git clone https://github.com/Tann10/deepspeech.pytorch.git`
+`git clone https://github.com/TripelA/Final-Project-Group6.git`
+
 `pip install -r requirements.txt`
 
 **To get the CTC loss function, install this fork for Warp-CTC bindings:**
