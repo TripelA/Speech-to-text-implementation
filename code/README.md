@@ -39,18 +39,19 @@ These models must be downloaded in order to use the [`Transcribe_and_Compare.py`
 
 **Dataset**
 
-To download the voxforge training and testing sets, please clone the following repo using the commands:
+To download the voxforge training and testing sets, please use the following commands
 
-> `git clone https://github.com/chentinghao/download_google_drive.git`
+> `wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG' -O voxforge_train_test2.7z`
 >
-> `cd download_google_drive`
+> `sudo apt-get install p7zip-full`
 >
-> `python download_gdrive.py 1yqf-NFeGHOh2RtqISmNlgPCsHsNuM_h_ PATH/FOR/DOWNLOAD/NAME.zip` <- set whatever filepath and name you want
+> `7z  x voxforge_train_test2.7z`
 >
-> `cd PATH/FOR/DOWNLOAD/`
->
-> `unzip NAME.zip`
+> `Cd voxforge_train_test2`
+> 
+> `Mv voxforge_sample_files ..; cd ..;`
 
-(The file can additionally be found [here](https://drive.google.com/file/d/1yqf-NFeGHOh2RtqISmNlgPCsHsNuM_h_/view?usp=sharing))
+
+(The file can additionally be found [here](https://drive.google.com/open?id=1ldkgRaV0bIn-Qlw1KW_BAjjUsqt36wCG))
 
 This will create a directory called `transfer_set`, with two nested directories, `train` and `test`. Keep the filepaths to the `train` and `test` directories available, as you will be able to use them in the `Transcribe_and_compare.py` script as the wav directory and the txt directories within the `test` folder. Additionally, the contents of the `train` folder will be available for any model tuning. 
